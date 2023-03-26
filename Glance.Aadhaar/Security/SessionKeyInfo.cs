@@ -22,25 +22,17 @@ public class SessionKeyInfo : IXml
     
     public string Key { get; set; }
     
-    public Guid KeyIdentifier { get; set; }
-    
     public void FromXml(XElement element)
     {
         ValidateNull(element, nameof(element));
         
         CertificateIdentifier = DateTimeOffset.ParseExact(element.Attribute("ci").Value, CertificateIdentifierFormat, CultureInfo.InvariantCulture);
         Key = element.Value;
-        var ki = element.Attribute("ki")?.Value;
-        KeyIdentifier = !string.IsNullOrEmpty(ki) ? Guid.Parse(ki) : Guid.Empty;
     }
 
     public XElement ToXml(string elementName)
     {
         var sessionKey = new XElement(elementName, new XAttribute("ci", CertificateIdentifier.ToString(CertificateIdentifierFormat, CultureInfo.InvariantCulture)), Key);
-        if (KeyIdentifier != Guid.Empty)
-        {
-            sessionKey.Add(new XAttribute("ki", KeyIdentifier.ToString()));
-        }
         return sessionKey;
     }
 }

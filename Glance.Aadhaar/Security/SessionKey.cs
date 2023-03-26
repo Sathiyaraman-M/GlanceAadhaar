@@ -33,7 +33,6 @@ public class SessionKey : IDisposable
         _random = RandomNumberGenerator.Create();
         _seedKey = new byte[32];
         _aes.Key.CopyTo(_seedKey, 0);
-        KeyIdentifier = Guid.NewGuid();
         _seedCreationTime = DateTimeOffset.Now;
 
     }
@@ -43,8 +42,6 @@ public class SessionKey : IDisposable
     public X509Certificate2 UidaiKey { get; }
     
     public bool IsSynchronized { get; }
-    
-    public Guid KeyIdentifier { get; }
     
     public bool HasExpired => IsSynchronized && _seedCreationTime - DateTimeOffset.Now > SynchronizedKeyTimeout;
     
@@ -87,7 +84,6 @@ public class SessionKey : IDisposable
         {
             CertificateIdentifier = UidaiKey.NotAfter,
             Key = key,
-            KeyIdentifier = KeyIdentifier
         };
     }
 

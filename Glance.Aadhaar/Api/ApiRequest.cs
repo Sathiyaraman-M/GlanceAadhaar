@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using Glance.Aadhaar.Helper;
+using Glance.Aadhaar.Security;
 
 namespace Glance.Aadhaar.Api;
 
@@ -57,6 +58,8 @@ public abstract class ApiRequest : IXml
             _transaction = value;
         }
     }
+    
+    public ISigner Signer { get; set; }
 
     public void FromXml(XElement element) => DeserializeXml(element);
 

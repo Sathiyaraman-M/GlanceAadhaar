@@ -1,4 +1,6 @@
-﻿namespace Glance.Aadhaar.Internal;
+﻿using Glance.Aadhaar.Helper;
+
+namespace Glance.Aadhaar.Internal;
 
 internal static class ExceptionHelper
 {
@@ -24,5 +26,13 @@ internal static class ExceptionHelper
             throw new ArgumentException(RequiredNonEmptyString, argumentName);
 
         return argument;
+    }
+    
+    public static string ValidateAadhaarNumber(string aadhaarNumber, string argumentName)
+    {
+        if (!string.IsNullOrEmpty(aadhaarNumber) && !AadhaarHelper.ValidateAadhaarNumber(aadhaarNumber))
+            throw new ArgumentException(InvalidAadhaarNumber, argumentName);
+
+        return aadhaarNumber;
     }
 }
