@@ -6,8 +6,8 @@ namespace Glance.Aadhaar.Security;
 
 public class SessionKeyInfo : IXml
 {
-    public static readonly string CertificateIdentifierFormat = "yyyyMMdd";
-    
+    private const string CertificateIdentifierFormat = "yyyyMMdd";
+
     public SessionKeyInfo()
     {
         
@@ -26,7 +26,7 @@ public class SessionKeyInfo : IXml
     {
         ValidateNull(element, nameof(element));
         
-        CertificateIdentifier = DateTimeOffset.ParseExact(element.Attribute("ci").Value, CertificateIdentifierFormat, CultureInfo.InvariantCulture);
+        CertificateIdentifier = DateTimeOffset.ParseExact(element.Attribute("ci")?.Value, CertificateIdentifierFormat, CultureInfo.InvariantCulture);
         Key = element.Value;
     }
 

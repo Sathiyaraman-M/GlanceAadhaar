@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using static System.Text.RegularExpressions.Regex;
 
 namespace Glance.Aadhaar.Helper;
@@ -50,4 +51,6 @@ public static class AadhaarHelper
         .Attributes()
         .Where(a => string.IsNullOrWhiteSpace(a.Value))
         .Remove();
+
+    public static bool ValidatePinCode(string pinCode) => !string.IsNullOrWhiteSpace(pinCode) && Regex.IsMatch(pinCode, @"^\d{6}$");
 }

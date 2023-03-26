@@ -31,7 +31,7 @@ public class ApiResponse : IXml
         
         ResponseCode = element.Element("code")?.Value;
         Transaction = element.Element("txn")?.Value;
-        TimeStamp = DateTimeOffset.Parse(element.Element("ts").Value, CultureInfo.InvariantCulture);
+        TimeStamp = DateTimeOffset.Parse(element.Element("ts")?.Value, CultureInfo.InvariantCulture);
         ErrorCode = element.Element("err")?.Value;
     }
     
