@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using Glance.Aadhaar.Device;
 using Glance.Aadhaar.Resident;
+using Glance.Aadhaar.Security;
 
 namespace Glance.Aadhaar.Api.Auth;
 
@@ -20,25 +21,37 @@ public class AuthRequest : ApiRequest
 
     protected override string ApiName => "Auth";
 
-    private string _userId;
+    private string _aadhaarNumber;
     
-    public string UserId
+    public string AadhaarNumber
     {
-        get => _userId;
-        set => _userId = ValidateAadhaarNumber(value, nameof(UserId));
+        get => _aadhaarNumber;
+        set => _aadhaarNumber = ValidateAadhaarNumber(value, nameof(AadhaarNumber));
     }
     
     public string HasResidentConsent { get; set; }
     
     public AuthUsage Uses { get; set; }
+    
+    public DeviceInfo DeviceInfo { get; set; }
+    
+    public SessionKeyInfo SessionKeyInfo { get; set; }
+    
+    public EncryptedData Data { get; set; }
+    
+    public string Hmac { get; set; }
 
     protected override void DeserializeXml(XElement element)
     {
         base.DeserializeXml(element);
         
-        UserId = element.Element("uid")?.Value;
+        AadhaarNumber = element.Element("uid")?.Value;
         HasResidentConsent = element.Element("rc")?.Value;
+        DeviceInfo = new DeviceInfo(element.Element("Devices"));
         Uses = new AuthUsage(element.Element("Uses"));
+        SessionKeyInfo = new SessionKeyInfo(element.Element("Skey"));
+        Data = new EncryptedData(element.Element("Data"));
+        Hmac = element.Element("Hmac")?.Value;
     }
 
     protected override XElement SerializeXml(XName name)
@@ -46,10 +59,14 @@ public class AuthRequest : ApiRequest
         ValidateNull(Uses, nameof(Uses));
         
         var authRequest = base.SerializeXml(name.LocalName);
-        authRequest.Add(new XAttribute("uid", UserId),
+        authRequest.Add(new XAttribute("uid", AadhaarNumber),
             new XAttribute("ver", AuthVersion),
             new XAttribute("rc", HasResidentConsent),
-            Uses.ToXml("Uses"));
+            Uses.ToXml("Uses"),
+            DeviceInfo.ToXml("Devices"),
+            SessionKeyInfo.ToXml("Skey"),
+            Data.ToXml("Data"),
+            new XElement("Hmac", Hmac));
         
         Signer?.ComputeSignature(authRequest);
         
