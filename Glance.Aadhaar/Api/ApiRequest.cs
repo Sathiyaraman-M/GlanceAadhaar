@@ -11,8 +11,8 @@ public abstract class ApiRequest : IXml
     private Transaction _transaction = new();
     
     public string Terminal { get; set; }
-    
-    public abstract string ApiName { get; }
+
+    protected abstract string ApiName { get; }
 
     public string AuaCode
     {
