@@ -1,7 +1,5 @@
 ﻿using System.Xml.Linq;
-using Glance.Aadhaar.Interfaces;
-using static Glance.Aadhaar.Helper.ExceptionHelper;
-using static Glance.Aadhaar.Constants.ErrorMessage;
+using Glance.Aadhaar.Helper;
 
 namespace Glance.Aadhaar.Api;
 

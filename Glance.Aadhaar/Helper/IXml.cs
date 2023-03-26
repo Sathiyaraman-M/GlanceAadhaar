@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace Glance.Aadhaar.Interfaces;
+namespace Glance.Aadhaar.Helper;
 
 internal interface IXml
 {

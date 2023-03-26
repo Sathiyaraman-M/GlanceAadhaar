@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
-using static Glance.Aadhaar.Helper.ExceptionHelper;
 
-namespace Glance.Aadhaar;
+namespace Glance.Aadhaar.Helper;
 
 public class Transaction
 {

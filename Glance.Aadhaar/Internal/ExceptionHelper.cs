@@ -1,6 +1,4 @@
-﻿using static Glance.Aadhaar.Constants.ErrorMessage;
-
-namespace Glance.Aadhaar.Helper;
+﻿namespace Glance.Aadhaar.Internal;
 
 internal static class ExceptionHelper
 {
