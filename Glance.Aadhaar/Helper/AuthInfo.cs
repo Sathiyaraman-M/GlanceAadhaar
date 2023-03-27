@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Globalization;
 using Glance.Aadhaar.Enums;
 using Glance.Aadhaar.Resident;
 
@@ -6,7 +7,7 @@ namespace Glance.Aadhaar.Helper;
 
 public class AuthInfo
 {
-    public const string InfoVersion = "04";
+    private const string InfoVersion = "04";
 
     private const string TimestampFormat = "yyyyMMddHHmmss";
 
@@ -59,7 +60,9 @@ public class AuthInfo
     
     public string InfoValue { get; set; }
     
-    public string AadhaarNumberHash { get; set; }
+    public string UserIdHash { get; set; }
+    
+    public UserIdType? UserIdType { get; set; }
     
     public string DemographicHash { get; set; }
     
@@ -75,11 +78,42 @@ public class AuthInfo
 
     public string Encode()
     {
+        var infoArray = new string[31];
+        for (var i = 0; i < infoArray.Length; i++)
+            infoArray[i] = string.Empty;
+        infoArray[0] = UserIdHash ?? string.Empty;
+        infoArray[1] = UserIdType.ToString();
+        infoArray[2] = DemographicHash ?? string.Empty;
+        infoArray[3] = UsageData ?? string.Empty;
+        infoArray[5] = Timestamp.ToString(TimestampFormat, CultureInfo.InvariantCulture);
+        infoArray[12] = AuaCodeHash ?? string.Empty;
+        infoArray[13] = SubAuaCode ?? string.Empty;
+        infoArray[24] = TerminalHash ?? string.Empty;
+        
+        InfoValue = $"{InfoVersion}{{{string.Join(",", infoArray)}}}";
         return InfoValue;
     }
 
     public AuthInfo Decode()
     {
+        ValidateEmptyString(InfoValue, nameof(InfoValue));
+        
+        var start = InfoValue.IndexOf('{');
+        var end = InfoValue.LastIndexOf('}');
+        if (start != -1 && end != -1)
+        {
+            var infoArray = InfoValue.Substring(start + 1, end - (start + 1)).Split(',');
+
+            UserIdHash = infoArray[0];
+            UserIdType = (UserIdType) Enum.Parse(typeof(UserIdType), infoArray[1]);
+            DemographicHash = infoArray[2];
+            UsageData = infoArray[3];
+            Timestamp = DateTimeOffset.ParseExact(infoArray[5], TimestampFormat, CultureInfo.InvariantCulture);
+            AuaCodeHash = infoArray[12];
+            SubAuaCode = infoArray[13];
+            TerminalHash = infoArray[24];
+        }
+
         return this;
     }
     
@@ -88,8 +122,10 @@ public class AuthInfo
         ValidateNull(authInfo, nameof(authInfo));
 
         var errorProperties = new List<string>(6);
-        if (!AadhaarNumberHash.Equals(authInfo.AadhaarNumberHash, StringComparison.OrdinalIgnoreCase))
-            errorProperties.Add(nameof(AadhaarNumberHash));
+        if (!UserIdHash.Equals(authInfo.UserIdHash, StringComparison.OrdinalIgnoreCase))
+            errorProperties.Add(nameof(UserIdHash));
+        if(!UserIdType.Equals(authInfo.UserIdType))
+            errorProperties.Add(nameof(UserIdType));
         if (!DemographicHash.Equals(authInfo.DemographicHash, StringComparison.OrdinalIgnoreCase))
             errorProperties.Add(nameof(DemographicHash));
         if (Timestamp != authInfo.Timestamp)
