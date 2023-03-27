@@ -19,7 +19,7 @@ public class AuthRequest : ApiRequest
         
     }
 
-    protected override string ApiName => "Auth";
+    public override string ApiName => "Auth";
 
     private string _aadhaarNumber;
     

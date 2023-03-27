@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Glance.Aadhaar.Agency;
 using static System.Text.RegularExpressions.Regex;
 
 namespace Glance.Aadhaar.Helper;
@@ -67,5 +69,21 @@ public static class AadhaarHelper
         ValidateNull(value, nameof(value));
 
         return BitConverter.ToString(value).Replace("-", string.Empty);
+    }
+    
+    public static Uri GetAddress(this UserAgency agencyInfo, string apiName, string aadhaarNumber = null)
+    {
+        ValidateNull(agencyInfo, nameof(agencyInfo));
+        ValidateEmptyString(apiName, nameof(apiName));
+        ValidateEmptyString(agencyInfo.AuaCode, nameof(UserAgency.AuaCode));
+
+        if (!agencyInfo.Hosts.TryGetValue(apiName, out var host))
+            throw new ArgumentException(NoHostName);
+
+        var encodedAsaLicenseKey = WebUtility.UrlEncode(agencyInfo.AsaLicenseKey) ?? string.Empty;
+
+        return string.IsNullOrWhiteSpace(aadhaarNumber) ?
+            new Uri(host, $"{agencyInfo.AuaCode}/{encodedAsaLicenseKey}") :
+            new Uri(host, $"{agencyInfo.AuaCode}/{aadhaarNumber[0]}/{aadhaarNumber[1]}/{encodedAsaLicenseKey}");
     }
 }

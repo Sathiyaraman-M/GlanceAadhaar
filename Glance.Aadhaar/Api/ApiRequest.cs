@@ -13,7 +13,7 @@ public abstract class ApiRequest : IXml
     
     public string Terminal { get; set; }
 
-    protected abstract string ApiName { get; }
+    public abstract string ApiName { get; }
 
     public string AuaCode
     {
