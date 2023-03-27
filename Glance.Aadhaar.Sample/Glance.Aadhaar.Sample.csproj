@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Glance.Aadhaar\Glance.Aadhaar.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Key" />
+    </ItemGroup>
+
 </Project>
