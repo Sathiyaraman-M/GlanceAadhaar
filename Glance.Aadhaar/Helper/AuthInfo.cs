@@ -1,4 +1,5 @@
-﻿using Glance.Aadhaar.Enums;
+﻿using System.Collections;
+using Glance.Aadhaar.Enums;
 using Glance.Aadhaar.Resident;
 
 namespace Glance.Aadhaar.Helper;
@@ -71,4 +72,56 @@ public class AuthInfo
     public string SubAuaCode { get; set; }
     
     public string TerminalHash { get; set; }
+
+    public string Encode()
+    {
+        return InfoValue;
+    }
+
+    public AuthInfo Decode()
+    {
+        return this;
+    }
+    
+    public string[] Validate(AuthInfo authInfo)
+    {
+        ValidateNull(authInfo, nameof(authInfo));
+
+        var errorProperties = new List<string>(6);
+        if (!AadhaarNumberHash.Equals(authInfo.AadhaarNumberHash, StringComparison.OrdinalIgnoreCase))
+            errorProperties.Add(nameof(AadhaarNumberHash));
+        if (!DemographicHash.Equals(authInfo.DemographicHash, StringComparison.OrdinalIgnoreCase))
+            errorProperties.Add(nameof(DemographicHash));
+        if (Timestamp != authInfo.Timestamp)
+            errorProperties.Add(nameof(Timestamp));
+        if (!AuaCodeHash.Equals(authInfo.AuaCodeHash, StringComparison.OrdinalIgnoreCase))
+            errorProperties.Add(nameof(AuaCodeHash));
+        if (!SubAuaCode.Equals(authInfo.SubAuaCode))
+            errorProperties.Add(nameof(SubAuaCode));
+        if (!TerminalHash.Equals(authInfo.TerminalHash, StringComparison.OrdinalIgnoreCase))
+            errorProperties.Add(nameof(TerminalHash));
+
+        return errorProperties.ToArray();
+    }
+    
+    public BitArray GetUsageData()
+    {
+        ValidateEmptyString(UsageData, nameof(UsageData));
+
+        var values = Convert.ToString(Convert.ToInt64(UsageData, 16), 2)
+            .PadLeft(60, '0')
+            .Select(b => b == '1')
+            .ToArray();
+
+        return new BitArray(values);
+    }
+    
+    public IEnumerable<string> GetMismatch()
+    {
+        var bitArray = GetUsageData();
+
+        return Usage.Value.Where(u => bitArray[u.UseLocation] && !bitArray[u.MatchLocation])
+            .Select(u => u.Name)
+            .OrderBy(u => u);
+    }
 }
