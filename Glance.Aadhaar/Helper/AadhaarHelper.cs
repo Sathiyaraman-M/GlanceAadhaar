@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using static System.Text.RegularExpressions.Regex;
 
@@ -53,4 +54,18 @@ public static class AadhaarHelper
         .Remove();
 
     public static bool ValidatePinCode(string pinCode) => !string.IsNullOrWhiteSpace(pinCode) && Regex.IsMatch(pinCode, @"^\d{6}$");
+    
+    public static byte[] GetBytes(this string value)
+    {
+        ValidateNull(value, nameof(value));
+
+        return Encoding.UTF8.GetBytes(value);
+    }
+    
+    public static string ToHex(this byte[] value)
+    {
+        ValidateNull(value, nameof(value));
+
+        return BitConverter.ToString(value).Replace("-", string.Empty);
+    }
 }
