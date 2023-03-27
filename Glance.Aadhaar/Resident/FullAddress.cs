@@ -1,8 +1,9 @@
 ﻿using System.Xml.Linq;
 using Glance.Aadhaar.Constants;
 using Glance.Aadhaar.Enums;
+using Glance.Aadhaar.Helper;
 
-namespace Glance.Aadhaar.Helper;
+namespace Glance.Aadhaar.Resident;
 
 public class FullAddress : IUsed, IXml
 {
