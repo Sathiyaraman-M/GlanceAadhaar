@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using Glance.Aadhaar.Device;
+using Glance.Aadhaar.Helper;
 using Glance.Aadhaar.Resident;
 using Glance.Aadhaar.Security;
 
@@ -40,6 +41,8 @@ public class AuthRequest : ApiRequest
     public EncryptedData Data { get; set; }
     
     public string Hmac { get; set; }
+    
+    public AuthInfo AuthInfo { get; set; }
 
     protected override void DeserializeXml(XElement element)
     {
