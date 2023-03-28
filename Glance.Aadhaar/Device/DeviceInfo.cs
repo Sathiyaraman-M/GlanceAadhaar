@@ -48,8 +48,20 @@ public class DeviceInfo : IXml
             new XAttribute("dc", DeviceCode),
             new XAttribute("mi", DeviceModelId),
             new XAttribute("mc", DevicePublicKeyCertificate));
-        
-        
+
         return deviceInfo;
+    }
+
+    public DeviceInfo Create()
+    {
+        return new DeviceInfo()
+        {
+            DeviceCode = DeviceCode,
+            DeviceModelId = DeviceModelId,
+            DeviceProviderId = DeviceProviderId,
+            RegisteredDeviceServiceId = RegisteredDeviceServiceId,
+            RegisteredDeviceServiceVersion = RegisteredDeviceServiceVersion,
+            DevicePublicKeyCertificate = DevicePublicKeyCertificate
+        };
     }
 }
