@@ -57,6 +57,7 @@ public class ApiClient<TRequest, TResponse> where TRequest: ApiRequest where TRe
         using var client = new HttpClient();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType));
         using var content = new StringContent(requestXml.ToString(SaveOptions.DisableFormatting));
+        Console.WriteLine(requestXml.ToString());
         using var response = (await client.PostAsync(Address, content)).EnsureSuccessStatusCode();
         return XElement.Load(await response.Content.ReadAsStreamAsync());
     }
