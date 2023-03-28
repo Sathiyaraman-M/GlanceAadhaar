@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using Glance.Aadhaar.Constants;
 using Glance.Aadhaar.Device;
 using Glance.Aadhaar.Helper;
 using Glance.Aadhaar.Resident;
@@ -17,7 +18,17 @@ public class AuthRequest : ApiRequest
 
     public AuthRequest(AuthContext authContext)
     {
-        
+        ValidateNull(authContext, nameof(authContext));
+
+        AadhaarNumber = authContext.AadhaarNumber;
+        HasResidentConsent = authContext.HasResidentConsent;
+        Data = authContext.Data;
+        DeviceInfo = authContext.DeviceInfo;
+        Hmac = authContext.Hmac;
+        SessionKeyInfo = authContext.KeyInfo;
+        Terminal = authContext.Terminal;
+        Uses = authContext.Uses;
+        AuthInfo = authContext.AuthInfo;
     }
 
     public override string ApiName => "Auth";
@@ -30,7 +41,7 @@ public class AuthRequest : ApiRequest
         set => _aadhaarNumber = ValidateAadhaarNumber(value, nameof(AadhaarNumber));
     }
     
-    public string HasResidentConsent { get; set; }
+    public bool HasResidentConsent { get; set; }
     
     public AuthUsage Uses { get; set; }
     
@@ -49,7 +60,7 @@ public class AuthRequest : ApiRequest
         base.DeserializeXml(element);
         
         AadhaarNumber = element.Element("uid")?.Value;
-        HasResidentConsent = element.Element("rc")?.Value;
+        HasResidentConsent = element.Element("rc")?.Value[0] == HelperConstants.YesUpperCase;
         DeviceInfo = new DeviceInfo(element.Element("Devices"));
         Uses = new AuthUsage(element.Element("Uses"));
         SessionKeyInfo = new SessionKeyInfo(element.Element("Skey"));
@@ -64,7 +75,7 @@ public class AuthRequest : ApiRequest
         var authRequest = base.SerializeXml(name.LocalName);
         authRequest.Add(new XAttribute("uid", AadhaarNumber),
             new XAttribute("ver", AuthVersion),
-            new XAttribute("rc", HasResidentConsent),
+            new XAttribute("rc", HasResidentConsent ? HelperConstants.YesUpperCase : HelperConstants.NoUpperCase),
             Uses.ToXml("Uses"),
             DeviceInfo.ToXml("Devices"),
             SessionKeyInfo.ToXml("Skey"),
