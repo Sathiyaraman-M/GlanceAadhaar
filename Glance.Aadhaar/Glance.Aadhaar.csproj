@@ -5,6 +5,15 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     
+    <PropertyGroup>
+        <PackageId>GlanceAadhaar</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Sathiyaraman M</Authors>
+        <Description>GlanceAadhaar is a .NET library for performing REST API requests to the Aadhaar API. It supports Auth, e-KYC, OTP and BFD requests.</Description>
+        <RepositoryUrl>https://github.com/F1R3L1GH75/GlanceAadhaar</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+    
     <ItemGroup>
         <PackageReference Include="System.Security.Cryptography.Xml" Version="7.0.1" />
     </ItemGroup>
