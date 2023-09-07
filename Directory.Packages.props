@@ -1,0 +1,8 @@
+﻿<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup Label=".NET 7" Condition=" ('$(TargetFrameworkIdentifier)' == '.NETCoreApp' And $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '7.0'))) ">
+    <PackageVersion Include="System.Security.Cryptography.Xml" Version="7.0.1" />
+  </ItemGroup>
+</Project>
