@@ -42,7 +42,7 @@ internal static class ErrorMessages
     public const string XorAddresses = "Address & FullAddress cannot be used in same transaction.";
     public const string XorFirFmr = "Fingerprint and Minutiae cannot be used in same transaction.";
 
-    // Miscellany
+    // Miscellaneous
     public const string NotSupportedXmlSignature = "XML signing not supported in platform.";
     public const string ExpiredSynchronizedKey = "Synchronized key expired.";
 }

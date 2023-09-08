@@ -1,6 +1,6 @@
 ﻿namespace GlanceAadhaar.Constants;
 
-public static class HelperConstants
+internal static class HelperConstants
 {
     public const char No = 'n';
     
