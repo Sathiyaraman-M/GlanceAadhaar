@@ -13,7 +13,8 @@ internal static class ErrorMessages
 
     // Out of range
     public const string OutOfRangeAge = "Age must be within 0 - 150.";
-    public const string OutOfRangeAuaCode = "AUA or Sub-AUA code must be within 10 characters.";
+    public const string OutOfRangeAuaCode = "AUA code must be within 10 characters.";
+    public const string OutOfRangeSubAuaCode = "Sub-AUA code must be within 10 characters.";
     public const string OutOfRangeAuaLicenseKey = "AUA license key must be within 64 characters.";
     public const string OutOfRangeDeviceCode = "Device code length exceeded.";
     public const string OutOfRangeLatitude = "Latitude must be within -90 - +90.";
@@ -32,17 +33,14 @@ internal static class ErrorMessages
     public const string RequiredNonEmptyString = "String cannot be null, empty or whitespaces.";
     public const string RequiredSomeData = "At least one resident data needs to be specified.";
 
-    // Not Found
-    public const string NoHostName = "Host name not found.";
-    public const string NoPrivateKey = "No private key found.";
-    public const string NoPublicKey = "No public key found.";
-    public const string NoSignature = "No signature found.";
-
     // XOR
     public const string XorAddresses = "Address & FullAddress cannot be used in same transaction.";
     public const string XorFirFmr = "Fingerprint and Minutiae cannot be used in same transaction.";
 
     // Miscellaneous
+    public const string NoHostName = "Host name not found.";
+    public const string NoPrivateKeyFound = "Provided X509 certificate does not have a private key.";
+    public const string NoSignatureFound = "No signature found in XML.";
     public const string NotSupportedXmlSignature = "XML signing not supported in platform.";
     public const string ExpiredSynchronizedKey = "Synchronized key expired.";
 }
