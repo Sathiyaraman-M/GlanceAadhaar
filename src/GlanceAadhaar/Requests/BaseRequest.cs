@@ -1,10 +1,9 @@
-﻿using System.Xml.Linq;
-using GlanceAadhaar.Contracts;
-using GlanceAadhaar.Elements;
+﻿using GlanceAadhaar.Contracts;
+using GlanceAadhaar.Helpers;
 
 namespace GlanceAadhaar.Requests;
 
-public abstract class ApiRequest : IXmlElement
+public abstract class BaseRequest : IXmlElement
 {
     private string _auaCode, _subAuaCode, _auaLicenseKey;
     private TransactionIdentifier _transaction = new();
@@ -26,7 +25,7 @@ public abstract class ApiRequest : IXmlElement
         set
         {
             if(value?.Length > 10)
-                throw new ArgumentOutOfRangeException(nameof(SubAuaCode), OutOfRangeAuaCode);
+                throw new ArgumentOutOfRangeException(nameof(SubAuaCode), OutOfRangeSubAuaCode);
             _subAuaCode = value;
         }
     }
@@ -54,26 +53,34 @@ public abstract class ApiRequest : IXmlElement
     }
     
     public string Terminal { get; set; }
-    
+
     public XElement ConvertToXml(string elementName) => Serialize(elementName);
 
-    public void LoadFromXml(XElement element)
-    {
-        throw new NotImplementedException();
-    }
-    
-    protected virtual XElement Serialize(XName name)
+    protected virtual XElement Serialize(string elementName)
     {
         ThrowIfNullOrEmptyString(AuaCode, nameof(AuaCode));
         ThrowIfNullOrEmptyString(AuaLicenseKey, nameof(AuaLicenseKey));
         ThrowIfNullOrEmptyString(Transaction, nameof(Transaction));
         ThrowIfNullOrEmptyString(Terminal, nameof(Terminal));
 
-        return new XElement(name,
+        return new XElement(elementName,
             new XAttribute("ac", AuaCode),
             new XAttribute("sa", SubAuaCode),
             new XAttribute("lk", AuaLicenseKey),
             new XAttribute("txn", Transaction),
             new XAttribute("tid", Terminal));
+    }
+
+    public void LoadFromXml(XElement element) => Deserialize(element);
+    
+    protected virtual void Deserialize(XElement element)
+    {
+        ThrowIfNull(element, nameof(element));
+
+        AuaCode = element.Attribute("ac")?.Value;
+        SubAuaCode = element.Attribute("sa")?.Value;
+        AuaLicenseKey = element.Attribute("lk")?.Value;
+        Transaction = element.Attribute("txn")?.Value;
+        Terminal = element.Attribute("tid")?.Value;
     }
 }
