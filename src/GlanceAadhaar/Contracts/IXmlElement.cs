@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace GlanceAadhaar.Contracts;
+﻿namespace GlanceAadhaar.Contracts;
 
 internal interface IXmlElement
 {
