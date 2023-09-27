@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlanceAadhaar", "src\GlanceAadhaar\GlanceAadhaar.csproj", "{CF625883-F565-4BAA-837C-CD16E3B6E2FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlanceAadhaar", "src\GlanceAadhaar.csproj", "{CF625883-F565-4BAA-837C-CD16E3B6E2FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlanceAadhaar.Sample", "src\GlanceAadhaar.Sample\GlanceAadhaar.Sample.csproj", "{64C8A710-B1E7-4A26-87B4-486D2FED08F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlanceAadhaar.Sample", "samples\GlanceAadhaar.Sample\GlanceAadhaar.Sample.csproj", "{64C8A710-B1E7-4A26-87B4-486D2FED08F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlanceAadhaar.Tests", "src\GlanceAadhaar.Tests\GlanceAadhaar.Tests.csproj", "{B866FBEA-1149-403F-AD85-09428DF8ED5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlanceAadhaar.Tests", "tests\GlanceAadhaar.Tests\GlanceAadhaar.Tests.csproj", "{B866FBEA-1149-403F-AD85-09428DF8ED5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
