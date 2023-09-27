@@ -1,6 +1,4 @@
-﻿using GlanceAadhaar.Contracts;
-
-namespace GlanceAadhaar.Responses;
+﻿namespace GlanceAadhaar.Responses;
 
 public abstract class BaseResponse : IXmlElement 
 {

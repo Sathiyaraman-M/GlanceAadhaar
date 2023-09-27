@@ -1,5 +1,4 @@
-﻿using GlanceAadhaar.Contracts;
-using GlanceAadhaar.Helpers;
+﻿using GlanceAadhaar.Helpers;
 
 namespace GlanceAadhaar.Requests;
 
