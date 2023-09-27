@@ -39,6 +39,7 @@ internal static class ErrorMessages
 
     // Miscellaneous
     public const string NoHostName = "Host name not found.";
+    public const string NoPublicKeyFound = "Provided X509 certificate does not have a public key.";
     public const string NoPrivateKeyFound = "Provided X509 certificate does not have a private key.";
     public const string NoSignatureFound = "No signature found in XML.";
     public const string NotSupportedXmlSignature = "XML signing not supported in platform.";
