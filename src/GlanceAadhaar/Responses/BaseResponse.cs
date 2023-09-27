@@ -1,9 +1,8 @@
-﻿using System.Xml.Linq;
-using GlanceAadhaar.Contracts;
+﻿using GlanceAadhaar.Contracts;
 
 namespace GlanceAadhaar.Responses;
 
-public abstract class ApiResponse : IXmlElement 
+public abstract class BaseResponse : IXmlElement 
 {
     public XElement ConvertToXml(string elementName)
     {
